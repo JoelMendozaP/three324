@@ -1,6 +1,5 @@
 import * as THREE from "/build/three.module.js";
 import { OrbitControls } from "/jsm/controls/OrbitControls.js";
-// import Stats from "/jsm/libs/stats.module.js";
 
 var scene = new THREE.Scene();
 
@@ -8,7 +7,7 @@ var camera, renderer;
 
 function init() {
   scene = new THREE.Scene();
-  scene.background = new THREE.Color(0x00538c);
+  scene.background = new THREE.Color(0x180a3f);
 
   ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
   scene.add(ambientLight);
@@ -111,6 +110,17 @@ function init() {
   aros2.rotation.x = -5;
   scene.add(aros2);
 
+  let star = new THREE.Mesh(
+    new THREE.SphereGeometry(1.5, 3, 4, 6, 6.3, 0, 6.3),
+    new THREE.MeshBasicMaterial({ color: 0xbfbb1c })
+  );
+  star.castShadow = true;
+  star.receiveShadow = true;
+  star.position.y = 33;
+  star.rotation.y = 5;
+  star.rotation.x = 5.5;
+  scene.add(star);
+
   function sphereFunc(colors, py, pz, px) {
     let sphere = new THREE.Mesh(
       new THREE.SphereBufferGeometry(1, 25, 25),
@@ -136,13 +146,11 @@ function init() {
   scene.add(sphereFunc(0xbf1131, 15, 7, 5));
   scene.add(sphereFunc(0x2745f2, 6, -1, -11));
 
-  //render
   renderer = new THREE.WebGLRenderer();
   renderer.setSize(1280, 720);
   renderer.shadowMap.enabled = true;
   renderer.shadowMap.type = THREE.BasicshadowMap;
 
-  //camera
   camera = new THREE.PerspectiveCamera(90, 100, 0.1, 2000);
   camera = new THREE.PerspectiveCamera(
     100,
@@ -152,7 +160,6 @@ function init() {
   );
   camera.position.set(-2, 18, 48);
   camera.lookAt(new THREE.Vector3(0, 10.8, 0));
-  //camara controls
   let cameraControls = new OrbitControls(camera, renderer.domElement);
   cameraControls.target.set(0, 0, 0);
 
